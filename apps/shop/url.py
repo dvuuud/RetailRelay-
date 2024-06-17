@@ -1,15 +1,28 @@
-from django.urls import path, include
-from rest_framework.routers import DefaultRouter
-from .views import CategoryViewSet, ProductViewSet, OrderViewSet, CartViewSet
-
-router = DefaultRouter()
-router.register(r'categories', CategoryViewSet)
-router.register(r'products', ProductViewSet)
-router.register(r'orders', OrderViewSet)
+from django.urls import path
+from rest_framework_simplejwt.views import (
+    TokenObtainPairView,
+    TokenRefreshView,
+)
+from .views import (
+    CategoryListCreateAPIView, CategoryDetailAPIView,
+    ProductListCreateAPIView, ProductDetailAPIView,
+    OrderListCreateAPIView, OrderDetailAPIView,
+    CartItemListCreateAPIView, CartItemDetailAPIView,
+    UserInfoAPIView, RegisterAPIView, LoginAPIView
+)
 
 urlpatterns = [
-    path('', include(router.urls)),
-    path('cart/', CartViewSet.as_view({'get': 'list'}), name='cart-detail'),
-    path('cart/add/', CartViewSet.as_view({'post': 'add_item'}), name='cart-add-item'),
-    path('cart/remove/<int:pk>/', CartViewSet.as_view({'delete': 'remove_item'}), name='cart-remove-item'),
+    path('categories/', CategoryListCreateAPIView.as_view(), name='category-list-create'),
+    path('categories/<int:pk>/', CategoryDetailAPIView.as_view(), name='category-detail'),
+    path('products/', ProductListCreateAPIView.as_view(), name='product-list-create'),
+    path('products/<int:pk>/', ProductDetailAPIView.as_view(), name='product-detail'),
+    path('orders/', OrderListCreateAPIView.as_view(), name='order-list-create'),
+    path('orders/<int:pk>/', OrderDetailAPIView.as_view(), name='order-detail'),
+    path('cart/items/', CartItemListCreateAPIView.as_view(), name='cart-item-list-create'),
+    path('cart/items/<int:pk>/', CartItemDetailAPIView.as_view(), name='cart-item-detail'),
+    path('user/info/', UserInfoAPIView.as_view(), name='user-info'),
+    path('register/', RegisterAPIView.as_view(), name='register'),
+    path('login/', LoginAPIView.as_view(), name='login'),
+    path('token/', TokenObtainPairView.as_view(), name='token_obtain_pair'),
+    path('token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
 ]
