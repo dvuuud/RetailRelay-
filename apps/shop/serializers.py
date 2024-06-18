@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import Category, Product, Order, OrderItem, Cart, CartItem
+from .models import Category, Product, Order, OrderItem, Cart, CartItem, Review
 from django.contrib.auth.models import User
 
 class CategorySerializer(serializers.ModelSerializer):
@@ -104,4 +104,15 @@ class UserSerializer(serializers.ModelSerializer):
             password=validated_data['password']
         )
         return user
-
+class ReviewSerializer(serializers.ModelSerializer):
+    user = UserSerializer(read_only=True)
+    
+    class Meta:
+        model = Review
+        field =  ['id', 'user', 'product', 'rating', 'comment', 'created_at']
+        extra_kwargs = {
+            'id': {'read_only': True},
+            'user': {'read_only': True},
+            'product': {'read_only': True},
+            'created_at': {'read_only': True},
+        }

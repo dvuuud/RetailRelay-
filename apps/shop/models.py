@@ -75,3 +75,19 @@ class CartItem(models.Model):
 
     def __str__(self):
         return f"CartItem({self.product}, {self.quantity})"
+    
+class Review(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE, verbose_name="Пользователь")
+    product = models.ForeignKey('Product', related_name='reviews', on_delete=models.CASCADE, verbose_name='Продукт')
+    rating = models.IntegerField(default=1, verbose_name='Рейтинг')
+    comment = models.TextField(blank=True, verbose_name='Комментарий')
+    created = models.DateTimeField(auto_now_add=True, verbose_name='Создан в')
+    
+    class Meta:
+        verbose_name = 'Отзыв'
+        verbose_name_plural = 'Отзывы'
+        
+    def __str__(self):
+        return f'Отзыв({self.user}, {self.product}, {self.rating})'
+    
+        
