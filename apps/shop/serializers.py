@@ -89,6 +89,7 @@ class CartSerializer(serializers.ModelSerializer):
             'items': {'verbose_name': "Элементы корзины"}
         }
         
+
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
@@ -98,12 +99,14 @@ class UserSerializer(serializers.ModelSerializer):
         }
 
     def create(self, validated_data):
-        user = User.objects.create_user(
+        user = User(
             username=validated_data['username'],
-            email=validated_data['email'],
-            password=validated_data['password']
+            email=validated_data['email']
         )
+        user.set_password(validated_data['password'])
+        user.save()
         return user
+    
 class ReviewSerializer(serializers.ModelSerializer):
     user = UserSerializer(read_only=True)
     
@@ -116,3 +119,7 @@ class ReviewSerializer(serializers.ModelSerializer):
             'product': {'read_only': True},
             'created_at': {'read_only': True},
         }
+class LoginSerializer(serializers.Serializer):
+    username = serializers.CharField(required=True)
+    password = serializers.CharField(required=True)
+    confirm_password = serializers.CharField(required=True, write_only=True)

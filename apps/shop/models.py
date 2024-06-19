@@ -74,7 +74,7 @@ class CartItem(models.Model):
         verbose_name_plural = "Элементы корзины"
 
     def __str__(self):
-        return f"CartItem({self.product}, {self.quantity})"
+        return f"({self.product}, {self.quantity})"
     
 class Review(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE, verbose_name="Пользователь")

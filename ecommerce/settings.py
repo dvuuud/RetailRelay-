@@ -43,6 +43,7 @@ INSTALLED_APPS = [
     'dj_rest_auth',
     'apps.shop',
     'django_filters',
+    'drf_yasg',
 ]
 
 MIDDLEWARE = [
