@@ -1,5 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import User
+from django.core.exceptions import ValidationError
+
 
 class Category(models.Model):
     name = models.CharField(max_length=255, verbose_name="Название")
@@ -82,12 +84,19 @@ class Review(models.Model):
     rating = models.IntegerField(default=1, verbose_name='Рейтинг')
     comment = models.TextField(blank=True, verbose_name='Комментарий')
     created = models.DateTimeField(auto_now_add=True, verbose_name='Создан в')
-    
+
     class Meta:
         verbose_name = 'Отзыв'
         verbose_name_plural = 'Отзывы'
-        
+    
     def __str__(self):
         return f'Отзыв({self.user}, {self.product}, {self.rating})'
     
+    def save(self, *args, **kwargs):
+        self.clean()
+        super().save(*args, **kwargs)
+
+    def clean(self):
+        if not (1 <= self.rating <= 5):
+            raise ValidationError({'rating': 'Рейтинг должен быть в диапазоне от 1 до 5.'})
         

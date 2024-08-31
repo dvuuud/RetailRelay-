@@ -8,7 +8,7 @@ from .views import (
     ProductListCreateAPIView, ProductDetailAPIView,
     OrderListCreateAPIView, OrderDetailAPIView,
     CartItemListCreateAPIView, CartItemDetailAPIView,
-    UserInfoAPIView, RegisterAPIView, LoginAPIView,ReviewListView, ReviewDetailView
+    UserInfoAPIView, ReviewListView, ReviewDetailView
 )
 
 urlpatterns = [
@@ -21,8 +21,6 @@ urlpatterns = [
     path('cart/items/', CartItemListCreateAPIView.as_view(), name='cart-item-list-create'),
     path('cart/items/<int:pk>/', CartItemDetailAPIView.as_view(), name='cart-item-detail'),
     path('user/info/', UserInfoAPIView.as_view(), name='user-info'),
-    path('register/', RegisterAPIView.as_view(), name='register'),
-    path('login/', LoginAPIView.as_view(), name='login'),
     path('token/', TokenObtainPairView.as_view(), name='token_obtain_pair'),
     path('token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),    
     path('reviews/', ReviewListView.as_view(), name='review-list'),
